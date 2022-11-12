@@ -206,4 +206,4 @@ function reducer(state, action) {
 
 | First render (Initial State)                         | Following several requests for state changes       |
 | ---------------------------------------------------- | -------------------------------------------------- |
-| ![useReducer-Before](./images/useReducer-before.png) | ![useReducer-After](./images/useReducer-after.png) |
+| ![useReducer-Before](./images/useReducer-Before.png) | ![useReducer-After](./images/useReducer-After.png) |
