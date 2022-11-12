@@ -1,7 +1,9 @@
+import Box from './shared/Box';
+
 function App() {
   return (
     <div className="App">
-      <p>Hello</p>
+      <Box> Hello World </Box>
     </div>
   );
 }
