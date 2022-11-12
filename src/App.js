@@ -1,9 +1,9 @@
-import Box from './shared/Box';
+import HelloWorld from "./components/HelloWorld";
 
 function App() {
   return (
     <div className="App">
-      <Box> Hello World </Box>
+      <HelloWorld />
     </div>
   );
 }

@@ -9,7 +9,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## 1.Create A React Component
+## 1. Hello World - Create A React Component
 
 In `shared/Box.jsx`, I created a react component, which you can see below.
 
@@ -38,7 +38,7 @@ function Box({ children, bgColor = "teal" }) {
 export default Box;
 ```
 
-- `children is a special, automatically passed prop that you can use to render the content when you give it as a property to the component.
+- `children` is a special, automatically passed prop that you can use to render the content when you give it as a property to the component.
 
 ```jsx
 <Box> Hello World </Box>
