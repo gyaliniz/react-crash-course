@@ -5,6 +5,8 @@ This repo includes examples of react basics (including hooks)
 - basics of creating react components
 - useState
 - useEffect
+- useRef
+- useLayoutEffect
 
 `To start the app` run `npm start`
 
@@ -47,7 +49,7 @@ export default Box;
 
 ## 2. State Example - useState, Trigger Dom Update
 
-React renders components if you say so. Consider a case when you want to update a text inside a component after clicking a button. Normally you just update the text variable and expect it to be updated, but this does not trigger React to re-render the component. For this type of scenario, useState is employed. In useState, you call the setter function to update the text, so React will be notified under the hood to re-render the component.
+React renders components if you say so. Consider a case when you want to update a text inside a component after clicking a button. Normally you just update the text variable and expect it to be updated, but this does not trigger React to re-render the component. For this type of scenario, `useState` is employed. In `useState`, you call the setter function to update the text, so React will be notified under the hood to re-render the component.
 
 | First render                                     | After clicking the button                      |
 | ------------------------------------------------ | ---------------------------------------------- |
@@ -67,7 +69,11 @@ const handleClick = () => setText(Math.random().toFixed(2));
 
 `useEffect` lets us notify React to re-render when we need to reach outside of direct user input, such as when fetching data from an API or updating the DOM.
 
-Let's think about this scenario: You have a red box, and when you are able to get the response to your API call, you want to change it to black. All these things are done in the background. You can use "useEffect" to update the color of the box after getting the response.
+Let's think about this scenario: You have a red box, and when you are able to get the response to your API call, you want to change it to black. All these things are done in the background. You can use `useEffect` to update the color of the box after getting the response.
+
+| First render                                       | After all useEffect functions are triggered      |
+| -------------------------------------------------- | ------------------------------------------------ |
+| ![useEffect-Before](./images/useEffect-Before.png) | ![useEffect-After](./images/useEffect-After.png) |
 
 ```jsx
 const [bgColor, setbgColor] = useState("darkred");
@@ -95,6 +101,26 @@ useEffect(() => {
 }, [bgColor]);
 ```
 
-| First render                                       | After all useEffect functions are triggered      |
-| -------------------------------------------------- | ------------------------------------------------ |
-| ![useEffect-Before](./images/useEffect-Before.png) | ![useEffect-After](./images/useEffect-After.png) |
+# 4. Ref Example - useRef, manipulate the DOM directly
+
+`Refs` allow us to create a reference to a given element or component when it mounts. when you need to make changes directly to the DOM, such as managing focus text selection or animating. Usually used in conjunction with `useLayoutEffect`.
+
+| First render (Just Before painting the DOM)  | After useLayoutEffect function is triggered |
+| -------------------------------------------- | ------------------------------------------- |
+| ![useRef-Before](./images/useRef-Before.png) | ![useRef-After](./images/useRef-After.png)  |
+
+```jsx
+const boxRef = useRef(null);
+
+useLayoutEffect(() => {
+  boxRef.current.innerHTML = "Updated via useRef";
+}, []);
+
+return (
+  <Container>
+    <Box>
+      <p ref={boxRef}> UseRef Example </p>
+    </Box>
+  </Container>
+);
+```
