@@ -1,13 +1,14 @@
-# Getting Started with Create React App
+# React Basics (components and hooks)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repo includes examples of react basics (including hooks)
 
-`Available Scripts`
+- basics of creating react components
+- useState
+- useEffect
 
-- `npm start`
+`To start the app` run `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+It will open [http://localhost:3000](http://localhost:3000) so you can view it in your browser.
 
 ## 1. Hello World - Create A React Component
 
