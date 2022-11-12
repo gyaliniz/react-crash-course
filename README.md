@@ -107,7 +107,7 @@ useEffect(() => {
 
 | First render (Just Before painting the DOM)  | After useLayoutEffect function is triggered |
 | -------------------------------------------- | ------------------------------------------- |
-| ![useRef-Before](./images/useRef-Before.png) | ![useRef-After](./images/useRef-After.png)  |
+| ![useRef-Before](./images/useRef-before.png) | ![useRef-After](./images/useRef-after.png)  |
 
 ```jsx
 const boxRef = useRef(null);
