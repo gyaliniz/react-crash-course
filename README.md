@@ -43,3 +43,17 @@ export default Box;
 ```jsx
 <Box> Hello World </Box>
 ```
+
+## 2. State Example - Trigger Dom Update
+
+React renders components if you say so. Consider a case when you want to update a text inside a component after clicking a button. Normally you just update the text variable and expect it to be updated, but this does not trigger React to re-render the component. For this type of scenario, useState is employed. In useState, you call the setter function to update the text, so React will be notified under the hood to re-render the component.
+
+```jsx
+// useState hook is used to trigger update text variable
+// so React can render accordingly
+const [text, setText] = useState("Initial text state");
+
+// here, we call setText to notify React
+// so that it can render the required part of the Dom
+const handleClick = () => setText(Math.random().toFixed(2));
+```
