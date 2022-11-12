@@ -1,5 +1,6 @@
 import EffectExample from "./components/EffectExample";
 import HelloWorld from "./components/HelloWorld";
+import ReducerExample from "./components/ReducerExample";
 import RefExample from "./components/RefExample";
 import StateExample from "./components/StateExample";
 
@@ -10,6 +11,7 @@ function App() {
       <StateExample />
       <EffectExample />
       <RefExample />
+      <ReducerExample />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React from "react";
 
 function Button({ text, handleClick }) {
   const buttonStyle = {
-    margin: "20px 0px",
+    margin: "20px 5px",
     padding: "5px 20px",
     borderRadius: "15px",
   };
