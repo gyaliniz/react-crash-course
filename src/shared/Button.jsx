@@ -1,7 +1,8 @@
 import React from "react";
 
-function Button({ text, handleClick }) {
+function Button({ text, handleClick, bgColor = "lightgray" }) {
   const buttonStyle = {
+    backgroundColor: bgColor,
     margin: "20px 5px",
     padding: "5px 20px",
     borderRadius: "15px",

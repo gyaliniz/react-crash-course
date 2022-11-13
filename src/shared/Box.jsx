@@ -1,9 +1,15 @@
 import React from "react";
 
-function Box({ children, bgColor = "teal" }) {
+function Box({
+  children,
+  bgColor = "teal",
+  textColor = "white",
+  fontSize = "medium",
+}) {
   const boxStyle = {
-    color: "white",
     backgroundColor: bgColor,
+    color: textColor,
+    fontSize,
     width: 180,
     height: 180,
     margin: "20px",

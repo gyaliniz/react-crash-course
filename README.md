@@ -133,6 +133,10 @@ return (
 
 ![useReducer-diagram](./images/useReducer-diagram.png)
 
+| First render (Initial State)                         | Following several requests for state changes       |
+| ---------------------------------------------------- | -------------------------------------------------- |
+| ![useReducer-Before](./images/useReducer-Before.png) | ![useReducer-After](./images/useReducer-After.png) |
+
 ```jsx
 function ReducerExample() {
   // initial state parameter for this component
@@ -206,15 +210,15 @@ function reducer(state, action) {
 }
 ```
 
-| First render (Initial State)                         | Following several requests for state changes       |
-| ---------------------------------------------------- | -------------------------------------------------- |
-| ![useReducer-Before](./images/useReducer-Before.png) | ![useReducer-After](./images/useReducer-After.png) |
-
 ## 6. Imperative Handle Example - useImperativeHandle, protect child properties by ref updates from it's parent
 
 You can `update` the element in the `DOM` via the ref hook. However, you should not reach out to the ref of a `child` of an element via `useRef`.
 
 You need to forward the reference in that case. In that case, you can set limitations on what a `parent` can do to a "child" via referencing by using the `useImperativeHandle` hook.
+
+| Just After Clicking the focus button                             | 2 seconds later...                                             |
+| ---------------------------------------------------------------- | -------------------------------------------------------------- |
+| ![imperativeHandle-Before](./images/imperativeHandle-Before.png) | ![imperativeHandle-After](./images/imperativeHandle-After.png) |
 
 ```jsx
 function ImperativeHandle() {
@@ -247,6 +251,83 @@ const InnerComponent = ({ forwardedRef }) => {
 };
 ```
 
-| Just After Clicking the focus button                             | 2 seconds later...                                             |
-| ---------------------------------------------------------------- | -------------------------------------------------------------- |
-| ![imperativeHandle-Before](./images/imperativeHandle-Before.png) | ![imperativeHandle-After](./images/imperativeHandle-After.png) |
+## 7. Context Example - useContext, control states (mostly static) from a single point
+
+When multiple components share states (mostly static) and store states in the parent, then passing state variables as props increases the complexity of the component. Using the Context API - `useContext`, we can share common state variables without prop drilling (passing props).
+
+| Dark Theme with Large Font                           | Light Theme with Normal Font                             |
+| ---------------------------------------------------- | -------------------------------------------------------- |
+| ![useContext-Before](./images/useContext-Before.png) | ![imperativeHandle-After](./images/useContext-After.png) |
+
+```jsx
+// Step 1: Create Context
+const ThemeContext = createContext();
+
+const initialState = {
+  bgColor: "gray",
+  textColor: "black",
+  btnPrimary: "gray",
+  btnSecondary: "darkgreen",
+  fontSize: "normal",
+};
+
+// step 2: export ThemeProvider, you wrap consumer with provider
+// so they can use the values provided by it
+export const ThemeProvider = ({ children }) => {
+  // step 3: use reducer with initial state
+  // to provide the current state and dispatch funtion to the consumers
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // step 4: use Provider to serve values to the consumers
+  return (
+    <ThemeContext.Provider
+      value={{
+        ...state,
+        dispatch,
+      }}
+    >
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "SET_DARK_THEME":
+      return {
+        ...state,
+        bgColor: "black",
+        textColor: "white",
+        btnPrimary: "teal",
+        btnSecondary: "violet",
+      };
+    case "SET_LIGHT_THEME":
+      return {
+        ...state,
+        ...initialState,
+      };
+    case "SET_LARGE_FONT":
+      return {
+        ...state,
+        fontSize: "large",
+      };
+    case "SET_NORMAL_FONT":
+      return {
+        ...state,
+        fontSize: "medium",
+      };
+    default:
+      return {
+        ...state,
+      };
+  }
+}
+```
+
+! Do not forget to provide values to the consumers
+
+```jsx
+<ThemeProvider>
+  <ContextExample />
+</ThemeProvider>
+```
