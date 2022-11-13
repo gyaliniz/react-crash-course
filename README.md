@@ -8,17 +8,19 @@ This repo includes examples of react basics (including hooks)
 - useRef
 - useLayoutEffect
 
+`To install dependencies` run `npm i`
+
 `To start the app` run `npm start`
 
 It will open [http://localhost:3000](http://localhost:3000) so you can view it in your browser.
 
 ## 1. Hello World - Create A React Component
 
-In `shared/Box.jsx`, I created a react component, which you can see below.
+In `shared/Box.jsx`, a react component is created, which you can see both the code and the output below.
 
 ![hello-world](./images/hello-world.png)
 
-- You can set the styling of a component inside of it. You need to use camelcase for the properties of the item (`boxStyle`).
+- You can set the styling of a component inside of it with a styling object. Beware that you need to use camelcase for the properties of the item as opposed to regular CSS. Please look at the `boxStyle` component.
 
 ```jsx
 import React from "react";
@@ -207,3 +209,44 @@ function reducer(state, action) {
 | First render (Initial State)                         | Following several requests for state changes       |
 | ---------------------------------------------------- | -------------------------------------------------- |
 | ![useReducer-Before](./images/useReducer-Before.png) | ![useReducer-After](./images/useReducer-After.png) |
+
+## 6. Imperative Handle Example - useImperativeHandle, protect child properties by ref updates from it's parent
+
+You can `update` the element in the `DOM` via the ref hook. However, you should not reach out to the ref of a `child` of an element via `useRef`.
+
+You need to forward the reference in that case. In that case, you can set limitations on what a `parent` can do to a "child" via referencing by using the `useImperativeHandle` hook.
+
+```jsx
+function ImperativeHandle() {
+  const inputRef = useRef(null);
+
+  const handleClick = () => inputRef.current.focusThenBlur();
+  return (
+    <Container>
+      <InnerComponent forwardedRef={inputRef} />
+      <Button text="Focus" handleClick={handleClick} />
+    </Container>
+  );
+}
+
+const InnerComponent = ({ forwardedRef }) => {
+  const localRef = useRef(null);
+
+  useImperativeHandle(forwardedRef, () => {
+    return {
+      focusThenBlur: () => {
+        localRef.current.focus();
+        setTimeout(() => {
+          localRef.current.blur();
+        }, 2000);
+      },
+    };
+  });
+
+  return <input type="text" ref={localRef} />;
+};
+```
+
+| Just After Clicking the focus button                             | 2 seconds later...                                             |
+| ---------------------------------------------------------------- | -------------------------------------------------------------- |
+| ![imperativeHandle-Before](./images/imperativeHandle-Before.png) | ![imperativeHandle-After](./images/imperativeHandle-After.png) |
