@@ -10,6 +10,7 @@ import RefExample from "./components/RefExample";
 import StateExample from "./components/StateExample";
 
 import CustomHookFetchExample from "./components/CustomHookFetchExample";
+import CustomHookLocalStorage from "./components/CustomHookLocalStorage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <ContextExample />
       </ThemeProvider>
       <CustomHookFetchExample />
+      <CustomHookLocalStorage />
     </div>
   );
 }

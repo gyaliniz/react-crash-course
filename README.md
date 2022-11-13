@@ -10,7 +10,7 @@ This repo includes examples of react basics (including hooks)
 - useReducer
 - useImperativeHandle
 - useContext
-- custom hooks
+- custom hooks (useFetch and useLocalStorage)
 
 `To install dependencies` run `npm i`
 
@@ -342,8 +342,6 @@ function reducer(state, action) {
 
 You can encapsulate fecth api and create custom hook so that you dont need to re-implement the same logic again and again.
 
-`using Custom Fetch Hook`
-
 | Before Fetching Data                             | Just After Receiving Data                      |
 | ------------------------------------------------ | ---------------------------------------------- |
 | ![useFetch-Before](./images/useFetch-Before.png) | ![useFetch-After](./images/useFetch-After.png) |
@@ -351,25 +349,14 @@ You can encapsulate fecth api and create custom hook so that you dont need to re
 - Fetch random projects from gitlab api and list them
 - to fetch the data use custom hook - useFetch
 
+#### 8.1.a useFetch Hook usage
+
 ```jsx
-function CustomHookFetchExample() {
   const { data, loading } = useFetch("https://gitlab.com/api/v4/projects", {});
-
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
-
-  return (
-    <ul>
-      {data.map((project) => (
-        <li key={project.id}>{project.name}</li>
-      ))}
-    </ul>
-  );
 }
 ```
 
-`useFetch Hook`
+#### 8.1.b useFetch Hook implmentation
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -401,4 +388,48 @@ function useFetch(url, options) {
 }
 
 export default useFetch;
+```
+
+### 8.2 useLocalStorage Hook
+
+To use browser local storage, we can create custom hook. It can help us to encapsulate to complexity of using localStorage of browser, and avoid reimplementing the same functionality over and over again.
+
+![useLocalStorage-After](./images/useLocalStorage.png)
+
+#### 8.2.a useLocalStorage Hook usage
+
+```jsx
+const [task, setTask] = useLocalStorage("task", "");
+const [tasks, setTasks] = useLocalStorage("tasks", []);
+```
+
+#### 8.2.b useLocalStorage Hook implementation
+
+```jsx
+import { useState } from "react";
+
+function useLocalStorage(key, initialValue) {
+  const [localStorageValue, setLocalStorageValue] = useState(() =>
+    getLocalStorageValue(key, initialValue)
+  );
+
+  const setValue = (value) => {
+    // Check if function
+    const valueToStore =
+      value instanceof Function ? value(localStorageValue) : value;
+    // Set to state
+    setLocalStorageValue(value);
+    // Set to local storage
+    localStorage.setItem(key, JSON.stringify(valueToStore));
+  };
+
+  return [localStorageValue, setValue];
+}
+
+function getLocalStorageValue(key, initialValue) {
+  const itemFromStorage = localStorage.getItem(key);
+  return itemFromStorage ? JSON.parse(itemFromStorage) : initialValue;
+}
+
+export default useLocalStorage;
 ```
