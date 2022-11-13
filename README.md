@@ -7,6 +7,10 @@ This repo includes examples of react basics (including hooks)
 - useEffect
 - useRef
 - useLayoutEffect
+- useReducer
+- useImperativeHandle
+- useContext
+- custom hooks
 
 `To install dependencies` run `npm i`
 
@@ -330,4 +334,71 @@ function reducer(state, action) {
 <ThemeProvider>
   <ContextExample />
 </ThemeProvider>
+```
+
+## 8. Custom Hook Examples
+
+### 8.1 useFetch Hook
+
+You can encapsulate fecth api and create custom hook so that you dont need to re-implement the same logic again and again.
+
+`using Custom Fetch Hook`
+
+| Before Fetching Data                             | Just After Receiving Data                      |
+| ------------------------------------------------ | ---------------------------------------------- |
+| ![useFetch-Before](./images/useFetch-Before.png) | ![useFetch-After](./images/useFetch-After.png) |
+
+- Fetch random projects from gitlab api and list them
+- to fetch the data use custom hook - useFetch
+
+```jsx
+function CustomHookFetchExample() {
+  const { data, loading } = useFetch("https://gitlab.com/api/v4/projects", {});
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
+
+  return (
+    <ul>
+      {data.map((project) => (
+        <li key={project.id}>{project.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+`useFetch Hook`
+
+```jsx
+import { useState, useEffect } from "react";
+
+function useFetch(url, options) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+
+        setData(data);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return { data, loading, error };
+}
+
+export default useFetch;
 ```

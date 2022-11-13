@@ -9,6 +9,8 @@ import ReducerExample from "./components/ReducerExample";
 import RefExample from "./components/RefExample";
 import StateExample from "./components/StateExample";
 
+import CustomHookFetchExample from "./components/CustomHookFetchExample";
+
 function App() {
   return (
     <div>
@@ -21,6 +23,7 @@ function App() {
       <ThemeProvider>
         <ContextExample />
       </ThemeProvider>
+      <CustomHookFetchExample />
     </div>
   );
 }
